@@ -290,6 +290,7 @@ class Swiper extends SwiperClass {
     function setTranslate() {
       const translateValue = swiper.rtlTranslate ? swiper.translate * -1 : swiper.translate;
       const newTranslate = Math.min(Math.max(translateValue, swiper.maxTranslate()), swiper.minTranslate());
+      console.log('core-class setTranslate', newTranslate);
       swiper.setTranslate(newTranslate);
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();

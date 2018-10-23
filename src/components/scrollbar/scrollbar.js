@@ -31,6 +31,8 @@ const Scrollbar = {
       newSize = trackSize - newPos;
     }
     if (swiper.isHorizontal()) {
+      // console.log('$dragEl.style', $dragEl, newPos);
+      // $dragEl.style.marginLeft = `${newPos}px`;
       if (Support.transforms3d) {
         $dragEl.transform(`translate3d(${newPos}px, 0, 0)`);
       } else {

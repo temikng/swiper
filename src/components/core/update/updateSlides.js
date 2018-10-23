@@ -44,8 +44,8 @@ export default function () {
   swiper.virtualSize = -spaceBetween;
 
   // reset margins
-  if (rtl) slides.css({ marginLeft: '', marginTop: '' });
-  else slides.css({ marginRight: '', marginBottom: '' });
+  // if (rtl) slides.css({ marginLeft: '', marginTop: '' });
+  // else slides.css({ marginRight: '', marginBottom: '' });
 
   let slidesNumberEvenToRows;
   if (params.slidesPerColumn > 1) {
@@ -142,13 +142,13 @@ export default function () {
       slideSize = (swiperSize - ((params.slidesPerView - 1) * spaceBetween)) / params.slidesPerView;
       if (params.roundLengths) slideSize = Math.floor(slideSize);
 
-      if (slides[i]) {
-        if (swiper.isHorizontal()) {
-          slides[i].style.width = `${slideSize}px`;
-        } else {
-          slides[i].style.height = `${slideSize}px`;
-        }
-      }
+      // if (slides[i]) {
+      //   if (swiper.isHorizontal()) {
+      //     slides[i].style.width = `${slideSize}px`;
+      //   } else {
+      //     slides[i].style.height = `${slideSize}px`;
+      //   }
+      // }
     }
     if (slides[i]) {
       slides[i].swiperSlideSize = slideSize;
@@ -222,12 +222,12 @@ export default function () {
   }
   if (snapGrid.length === 0) snapGrid = [0];
 
-  if (params.spaceBetween !== 0) {
-    if (swiper.isHorizontal()) {
-      if (rtl) slides.css({ marginLeft: `${spaceBetween}px` });
-      else slides.css({ marginRight: `${spaceBetween}px` });
-    } else slides.css({ marginBottom: `${spaceBetween}px` });
-  }
+  // if (params.spaceBetween !== 0) {
+  //   if (swiper.isHorizontal()) {
+  //     if (rtl) slides.css({ marginLeft: `${spaceBetween}px` });
+  //     else slides.css({ marginRight: `${spaceBetween}px` });
+  //   } else slides.css({ marginBottom: `${spaceBetween}px` });
+  // }
 
   if (params.centerInsufficientSlides) {
     let allSlidesSize = 0;

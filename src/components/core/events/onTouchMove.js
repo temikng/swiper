@@ -200,5 +200,6 @@ export default function (event) {
   // Update progress
   swiper.updateProgress(data.currentTranslate);
   // Update translate
+  // console.log('onTouchMove', data.currentTranslate, data);
   swiper.setTranslate(data.currentTranslate);
 }

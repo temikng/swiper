@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 14, 2018
+ * Released on: October 23, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -80,42 +80,50 @@ const Utils = {
     return Date.now();
   },
   getTranslate(el, axis = 'x') {
-    let matrix;
+    // let matrix;
     let curTransform;
-    let transformMatrix;
+    // let transformMatrix;
 
     const curStyle = window.getComputedStyle(el, null);
-
-    if (window.WebKitCSSMatrix) {
-      curTransform = curStyle.transform || curStyle.webkitTransform;
-      if (curTransform.split(',').length > 6) {
-        curTransform = curTransform.split(', ').map(a => a.replace(',', '.')).join(', ');
-      }
-      // Some old versions of Webkit choke when 'none' is passed; pass
-      // empty string instead in this case
-      transformMatrix = new window.WebKitCSSMatrix(curTransform === 'none' ? '' : curTransform);
-    } else {
-      transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
-      matrix = transformMatrix.toString().split(',');
-    }
-
     if (axis === 'x') {
-      // Latest Chrome and webkits Fix
-      if (window.WebKitCSSMatrix) curTransform = transformMatrix.m41;
-      // Crazy IE10 Matrix
-      else if (matrix.length === 16) curTransform = parseFloat(matrix[12]);
-      // Normal Browsers
-      else curTransform = parseFloat(matrix[4]);
+      curTransform = parseFloat(curStyle.marginLeft.replace('px', ''));
+    } else {
+      curTransform = parseFloat(curStyle.marginLeft.replace('px', ''));
     }
-    if (axis === 'y') {
-      // Latest Chrome and webkits Fix
-      if (window.WebKitCSSMatrix) curTransform = transformMatrix.m42;
-      // Crazy IE10 Matrix
-      else if (matrix.length === 16) curTransform = parseFloat(matrix[13]);
-      // Normal Browsers
-      else curTransform = parseFloat(matrix[5]);
-    }
-    return curTransform || 0;
+
+    return curTransform;
+
+    // if (window.WebKitCSSMatrix) {
+    //   curTransform = curStyle.transform || curStyle.webkitTransform;
+    //   if (curTransform.split(',').length > 6) {
+    //     curTransform = curTransform.split(', ').map(a => a.replace(',', '.')).join(', ');
+    //   }
+    //   // Some old versions of Webkit choke when 'none' is passed; pass
+    //   // empty string instead in this case
+    //   transformMatrix = new window.WebKitCSSMatrix(curTransform === 'none' ? '' : curTransform);
+    // } else {
+    //   transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
+    //   matrix = transformMatrix.toString().split(',');
+    // }
+
+    // if (axis === 'x') {
+    //   // Latest Chrome and webkits Fix
+    //   if (window.WebKitCSSMatrix) curTransform = transformMatrix.m41;
+    //   // Crazy IE10 Matrix
+    //   else if (matrix.length === 16) curTransform = parseFloat(matrix[12]);
+    //   // Normal Browsers
+    //   else curTransform = parseFloat(matrix[4]);
+    // }
+    // if (axis === 'y') {
+    //   // Latest Chrome and webkits Fix
+    //   if (window.WebKitCSSMatrix) curTransform = transformMatrix.m42;
+    //   // Crazy IE10 Matrix
+    //   else if (matrix.length === 16) curTransform = parseFloat(matrix[13]);
+    //   // Normal Browsers
+    //   else curTransform = parseFloat(matrix[5]);
+    // }
+    // console.log('utils getTranslate', curTransform, axis, transformMatrix, matrix, curStyle.marginLeft);
+    // return curTransform || 0;
   },
   parseUrlQuery(url) {
     const query = {};
@@ -457,8 +465,8 @@ function updateSlides () {
   swiper.virtualSize = -spaceBetween;
 
   // reset margins
-  if (rtl) slides.css({ marginLeft: '', marginTop: '' });
-  else slides.css({ marginRight: '', marginBottom: '' });
+  // if (rtl) slides.css({ marginLeft: '', marginTop: '' });
+  // else slides.css({ marginRight: '', marginBottom: '' });
 
   let slidesNumberEvenToRows;
   if (params.slidesPerColumn > 1) {
@@ -555,13 +563,13 @@ function updateSlides () {
       slideSize = (swiperSize - ((params.slidesPerView - 1) * spaceBetween)) / params.slidesPerView;
       if (params.roundLengths) slideSize = Math.floor(slideSize);
 
-      if (slides[i]) {
-        if (swiper.isHorizontal()) {
-          slides[i].style.width = `${slideSize}px`;
-        } else {
-          slides[i].style.height = `${slideSize}px`;
-        }
-      }
+      // if (slides[i]) {
+      //   if (swiper.isHorizontal()) {
+      //     slides[i].style.width = `${slideSize}px`;
+      //   } else {
+      //     slides[i].style.height = `${slideSize}px`;
+      //   }
+      // }
     }
     if (slides[i]) {
       slides[i].swiperSlideSize = slideSize;
@@ -635,12 +643,12 @@ function updateSlides () {
   }
   if (snapGrid.length === 0) snapGrid = [0];
 
-  if (params.spaceBetween !== 0) {
-    if (swiper.isHorizontal()) {
-      if (rtl) slides.css({ marginLeft: `${spaceBetween}px` });
-      else slides.css({ marginRight: `${spaceBetween}px` });
-    } else slides.css({ marginBottom: `${spaceBetween}px` });
-  }
+  // if (params.spaceBetween !== 0) {
+  //   if (swiper.isHorizontal()) {
+  //     if (rtl) slides.css({ marginLeft: `${spaceBetween}px` });
+  //     else slides.css({ marginRight: `${spaceBetween}px` });
+  //   } else slides.css({ marginBottom: `${spaceBetween}px` });
+  // }
 
   if (params.centerInsufficientSlides) {
     let allSlidesSize = 0;
@@ -988,7 +996,6 @@ function setTranslate (translate, byController) {
   } = swiper;
   let x = 0;
   let y = 0;
-  const z = 0;
 
   if (swiper.isHorizontal()) {
     x = rtl ? -translate : translate;
@@ -1002,8 +1009,13 @@ function setTranslate (translate, byController) {
   }
 
   if (!params.virtualTranslate) {
-    if (Support.transforms3d) $wrapperEl.transform(`translate3d(${x}px, ${y}px, ${z}px)`);
-    else $wrapperEl.transform(`translate(${x}px, ${y}px)`);
+    if (Support.transforms3d) {
+      // console.log('setTranslate', $wrapperEl, x, y, z);
+      $wrapperEl[0].style.marginLeft = `${x}px`;
+      // $wrapperEl.transform(`/*translate3d(${x}px, ${y}px, ${z}px)*/`);
+    } else {
+      $wrapperEl.transform(`translate(${x}px, ${y}px)`);
+    }
   }
   swiper.previousTranslate = swiper.translate;
   swiper.translate = swiper.isHorizontal() ? x : y;
@@ -1765,7 +1777,9 @@ function onTouchStart (event) {
     ) {
       document.activeElement.blur();
     }
-    if (preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault) {
+
+    const shouldPreventDefault = preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
+    if (params.touchStartForcePreventDefault || shouldPreventDefault) {
       e.preventDefault();
     }
   }
@@ -1970,6 +1984,7 @@ function onTouchMove (event) {
   // Update progress
   swiper.updateProgress(data$$1.currentTranslate);
   // Update translate
+  // console.log('onTouchMove', data.currentTranslate, data);
   swiper.setTranslate(data$$1.currentTranslate);
 }
 
@@ -2397,13 +2412,30 @@ function setBreakpoint () {
   } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
+
   // Set breakpoint for window width and update parameters
   const breakpoint = swiper.getBreakpoint(breakpoints);
-  if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
-    const breakPointsParams = breakpoint in breakpoints ? breakpoints[breakpoint] : swiper.originalParams;
-    const needsReLoop = params.loop && (breakPointsParams.slidesPerView !== params.slidesPerView);
 
-    Utils.extend(swiper.params, breakPointsParams);
+  if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
+    const breakpointOnlyParams = breakpoint in breakpoints ? breakpoints[breakpoint] : undefined;
+    if (breakpointOnlyParams) {
+      ['slidesPerView', 'spaceBetween', 'slidesPerGroup'].forEach((param) => {
+        const paramValue = breakpointOnlyParams[param];
+        if (typeof paramValue === 'undefined') return;
+        if (param === 'slidesPerView' && (paramValue === 'AUTO' || paramValue === 'auto')) {
+          breakpointOnlyParams[param] = 'auto';
+        } else if (param === 'slidesPerView') {
+          breakpointOnlyParams[param] = parseFloat(paramValue);
+        } else {
+          breakpointOnlyParams[param] = parseInt(paramValue, 10);
+        }
+      });
+    }
+
+    const breakpointParams = breakpointOnlyParams || swiper.originalParams;
+    const needsReLoop = params.loop && (breakpointParams.slidesPerView !== params.slidesPerView);
+
+    Utils.extend(swiper.params, breakpointParams);
 
     Utils.extend(swiper, {
       allowTouchMove: swiper.params.allowTouchMove,
@@ -2419,7 +2451,7 @@ function setBreakpoint () {
       swiper.updateSlides();
       swiper.slideTo((activeIndex - loopedSlides) + swiper.loopedSlides, 0, false);
     }
-    swiper.emit('breakpoint', breakPointsParams);
+    swiper.emit('breakpoint', breakpointParams);
   }
 }
 
@@ -2658,6 +2690,7 @@ var defaults = {
   threshold: 0,
   touchMoveStopPropagation: true,
   touchStartPreventDefault: true,
+  touchStartForcePreventDefault: false,
   touchReleaseOnEdges: false,
 
   // Unique Navigation Elements
@@ -2989,6 +3022,7 @@ class Swiper extends SwiperClass {
     function setTranslate() {
       const translateValue = swiper.rtlTranslate ? swiper.translate * -1 : swiper.translate;
       const newTranslate = Math.min(Math.max(translateValue, swiper.maxTranslate()), swiper.minTranslate());
+      console.log('core-class setTranslate', newTranslate);
       swiper.setTranslate(newTranslate);
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();
@@ -4355,6 +4389,8 @@ const Scrollbar = {
       newSize = trackSize - newPos;
     }
     if (swiper.isHorizontal()) {
+      // console.log('$dragEl.style', $dragEl, newPos);
+      // $dragEl.style.marginLeft = `${newPos}px`;
       if (Support.transforms3d) {
         $dragEl.transform(`translate3d(${newPos}px, 0, 0)`);
       } else {
@@ -5549,6 +5585,7 @@ const Controller = {
     }
   },
   setTranslate(setTranslate, byController) {
+    console.log('controller setTranslate', this);
     const swiper = this;
     const controlled = swiper.controller.control;
     let multiplier;
@@ -5670,6 +5707,7 @@ var Controller$1 = {
     setTranslate(translate, byController) {
       const swiper = this;
       if (!swiper.controller.control) return;
+      console.log('controller setTranslate on', this, translate);
       swiper.controller.setTranslate(translate, byController);
     },
     setTransition(duration, byController) {
