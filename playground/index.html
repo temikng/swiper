@@ -11,17 +11,7 @@
         <div class="swiper-scrollbar"></div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">Slide 1</div>
-            <div class="swiper-slide">Slide 2</div>
-            <div class="swiper-slide">Slide 3</div>
-            <div class="swiper-slide">Slide 4</div>
-            <div class="swiper-slide">Slide 5</div>
-            <div class="swiper-slide">Slide 6</div>
-            <div class="swiper-slide">Slide 7</div>
-            <div class="swiper-slide">Slide 8</div>
-            <div class="swiper-slide">Slide 9</div>
-            <div class="swiper-slide">Slide 10</div>
+        <div class="swiper-wrapper" id="swiperWrapper">
         </div>
         <div class="swiper-pagination"></div>
     </div>
@@ -34,23 +24,49 @@
     }
     .swiper-container {
         width: 100%;
-        height: 300px;
-        margin: 50px auto;
+        height: 100%;
+        margin: 0px auto;
     }
     .swiper-slide {
         background: #f1f1f1;
         color:#000;
-        text-align: center;
-        line-height: 300px;
+        position: relative;
+        box-sizing: border-box;
+        border: 1px dashed;
+    }
+    .text {
+      padding: 30px;
+    }
+    .btn-holder {
+      position: fixed;
+      width: 300px;
+      height: 30px;
+      bottom: 30px;
+    }
+    .btn {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 1px solid gray;
     }
     </style>
     <script src="../dist/js/swiper.min.js"></script>
     <script>
+        var elSwiperWrapper = document.getElementById('swiperWrapper');
+        for (var i = 0; i < 10; i++) {
+          var elSwiperSlide = document.createElement('DIV');
+          elSwiperSlide.classList.add('swiper-slide');
+          elSwiperSlide.style.zIndex = i + 1;
+          elSwiperSlide.innerHTML = createInnerSlideContent(i);
+          elSwiperWrapper.appendChild(elSwiperSlide);
+        }
         var swiper = new Swiper({
             el: '.swiper-container',
             initialSlide: 2,
-            spaceBetween: 50,
-            slidesPerView: 2,
+            spaceBetween: 0,
+            slidesPerView: 1,
             centeredSlides: true,
             slideToClickedSlide: true,
             grabCursor: true,
@@ -58,7 +74,7 @@
               el: '.swiper-scrollbar',
             },
             mousewheel: {
-              enabled: true,
+              enabled: false,
             },
             keyboard: {
               enabled: true,
@@ -71,6 +87,41 @@
               prevEl: '.swiper-button-prev',
             },
         });
+
+        function createInnerSlideContent(index) {
+          return [
+            "<div class='text'>Certain but she but shyness why cottage. Gay the put instrument sir entreaties affronting. Pretended exquisite see cordially the you. \
+            Weeks quiet do vexed or whose. Motionless if no to affronting imprudence no precaution. My indulged as disposal strongly attended. \
+            Parlors men express had private village man. Discovery moonlight recommend all one not. \
+            Indulged to answered prospect it bachelor is he bringing shutters. \
+            Pronounce forfeited mr direction oh he dashwoods ye unwilling.<br>\
+            Indulgence announcing uncommonly met she continuing two unpleasing terminated. Now busy say down the shed eyes roof paid her. \
+            Of shameless collected suspicion existence in. Share walls stuff think but the arise guest. Course suffer to do he sussex it window advice. \
+            Yet matter enable misery end extent common men should. Her indulgence but assistance favourable cultivated everything collecting.<br>\
+            An country demesne message it. Bachelor domestic extended doubtful as concerns at. Morning prudent removal an letters by. On could my in order never it. \
+            Or excited certain sixteen it to parties colonel. Depending conveying direction has led immediate. Law gate her well bed life feet seen rent. \
+            On nature or no except it sussex.<br>\
+            He my polite be object oh change. Consider no mr am overcame yourself throwing sociable children. Hastily her totally conduct may. My solid by stuff first smile fanny. Humoured how advanced mrs elegance sir who. Home sons when them dine do want to. Estimating themselves unsatiable imprudence an he at an. Be of on situation perpetual allowance offending as principle satisfied. Improved carriage securing are desirous too.<br>\
+            Kindness to he horrible reserved ye. Effect twenty indeed beyond for not had county. The use him without greatly can private. Increasing it unpleasant no of contrasted no continuing. Nothing colonel my no removed in weather. It dissimilar in up devonshire inhabiting.<br>\
+            Instrument cultivated alteration any favourable expression law far nor. Both new like tore but year. An from mean on with when sing pain. Oh to as principles devonshire companions unsatiable an delightful. The ourselves suffering the sincerity. Inhabit her manners adapted age certain. Debating offended at branched striking be subjects.<br>\
+            Received the likewise law graceful his. Nor might set along charm now equal green. Pleased yet equally correct colonel not one. Say anxious carried compact conduct sex general nay certain. Mrs for recommend exquisite household eagerness preserved now. My improved honoured he am ecstatic quitting greatest formerly.<br>\
+            Mr oh winding it enjoyed by between. The servants securing material goodness her. Saw principles themselves ten are possession. So endeavor to continue cheerful doubtful we to. Turned advice the set vanity why mutual. Reasonably if conviction on be unsatiable discretion apartments delightful. Are melancholy appearance stimulated occasional entreaties end. Shy ham had esteem happen active county. Winding morning am shyness evident to. Garrets because elderly new manners however one village she.<br>\
+            We diminution preference thoroughly if. Joy deal pain view much her time. Led young gay would now state. Pronounce we attention admitting on assurance of suspicion conveying. That his west quit had met till. Of advantage he attending household at do perceived. Middleton in objection discovery as agreeable. Edward thrown dining so he my around to.<br>\
+            Of shameless collected suspicion existence in. Share walls stuff think but the arise guest. Course suffer to do he sussex it window advice. \
+            Yet matter enable misery end extent common men should. Her indulgence but assistance favourable cultivated everything collecting.<br>\
+            An country demesne message it. Bachelor domestic extended doubtful as concerns at. Morning prudent removal an letters by. On could my in order never it. \
+            Or excited certain sixteen it to parties colonel. Depending conveying direction has led immediate. Law gate her well bed life feet seen rent. \
+            On nature or no except it sussex.<br>\
+            He my polite be object oh change. Consider no mr am overcame yourself throwing sociable children. Hastily her totally conduct may. My solid by stuff first smile fanny. Humoured how advanced mrs elegance sir who. Home sons when them dine do want to. Estimating themselves unsatiable imprudence an he at an. Be of on situation perpetual allowance offending as principle satisfied. Improved carriage securing are desirous too.<br>\
+            Kindness to he horrible reserved ye. Effect twenty indeed beyond for not had county. The use him without greatly can private. Increasing it unpleasant no of contrasted no continuing. Nothing colonel my no removed in weather. It dissimilar in up devonshire inhabiting.<br>\
+            Instrument cultivated alteration any favourable expression law far nor. Both new like tore but year. An from mean on with when sing pain. Oh to as principles devonshire companions unsatiable an delightful. The ourselves suffering the sincerity. Inhabit her manners adapted age certain. Debating offended at branched striking be subjects.<br>\
+            Received the likewise law graceful his. Nor might set along charm now equal green. Pleased yet equally correct colonel not one. Say anxious carried compact conduct sex general nay certain. Mrs for recommend exquisite household eagerness preserved now. My improved honoured he am ecstatic quitting greatest formerly.<br>\
+            Mr oh winding it enjoyed by between. The servants securing material goodness her. Saw principles themselves ten are possession. So endeavor to continue cheerful doubtful we to. Turned advice the set vanity why mutual. Reasonably if conviction on be unsatiable discretion apartments delightful. Are melancholy appearance stimulated occasional entreaties end. Shy ham had esteem happen active county. Winding morning am shyness evident to. Garrets because elderly new manners however one village she.<br>\
+            We diminution preference thoroughly if. Joy deal pain view much her time. Led young gay would now state. Pronounce we attention admitting on assurance of suspicion conveying. That his west quit had met till. Of advantage he attending household at do perceived. Middleton in objection discovery as agreeable. Edward thrown dining so he my around to.<br>\
+            But why smiling man her imagine married. Chiefly can man her out believe manners cottage colonel unknown. Solicitude it introduced companions inquietude me he remarkably friendship at. My almost or horses period. Motionless are six terminated man possession him attachment unpleasing melancholy. Sir smile arose one share. No abroad in easily relied an whence lovers temper by. Looked wisdom common he an be giving length mr.</div>",
+            '<div class="btn-holder" style="margin-left: calc(100% / 2 - 150px)"><button class="btn">Slide ' + (index + 1) + '</button></div>',
+          ].join("\n");
+        }
     </script>
 </body>
 </html>

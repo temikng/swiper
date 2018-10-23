@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 14, 2018
+ * Released on: October 23, 2018
  */
 
 (function (global, factory) {
@@ -912,42 +912,50 @@
     getTranslate: function getTranslate(el, axis) {
       if ( axis === void 0 ) axis = 'x';
 
-      var matrix;
+      // let matrix;
       var curTransform;
-      var transformMatrix;
+      // let transformMatrix;
 
       var curStyle = win.getComputedStyle(el, null);
-
-      if (win.WebKitCSSMatrix) {
-        curTransform = curStyle.transform || curStyle.webkitTransform;
-        if (curTransform.split(',').length > 6) {
-          curTransform = curTransform.split(', ').map(function (a) { return a.replace(',', '.'); }).join(', ');
-        }
-        // Some old versions of Webkit choke when 'none' is passed; pass
-        // empty string instead in this case
-        transformMatrix = new win.WebKitCSSMatrix(curTransform === 'none' ? '' : curTransform);
-      } else {
-        transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
-        matrix = transformMatrix.toString().split(',');
-      }
-
       if (axis === 'x') {
-        // Latest Chrome and webkits Fix
-        if (win.WebKitCSSMatrix) { curTransform = transformMatrix.m41; }
-        // Crazy IE10 Matrix
-        else if (matrix.length === 16) { curTransform = parseFloat(matrix[12]); }
-        // Normal Browsers
-        else { curTransform = parseFloat(matrix[4]); }
+        curTransform = parseFloat(curStyle.marginLeft.replace('px', ''));
+      } else {
+        curTransform = parseFloat(curStyle.marginLeft.replace('px', ''));
       }
-      if (axis === 'y') {
-        // Latest Chrome and webkits Fix
-        if (win.WebKitCSSMatrix) { curTransform = transformMatrix.m42; }
-        // Crazy IE10 Matrix
-        else if (matrix.length === 16) { curTransform = parseFloat(matrix[13]); }
-        // Normal Browsers
-        else { curTransform = parseFloat(matrix[5]); }
-      }
-      return curTransform || 0;
+
+      return curTransform;
+
+      // if (window.WebKitCSSMatrix) {
+      //   curTransform = curStyle.transform || curStyle.webkitTransform;
+      //   if (curTransform.split(',').length > 6) {
+      //     curTransform = curTransform.split(', ').map(a => a.replace(',', '.')).join(', ');
+      //   }
+      //   // Some old versions of Webkit choke when 'none' is passed; pass
+      //   // empty string instead in this case
+      //   transformMatrix = new window.WebKitCSSMatrix(curTransform === 'none' ? '' : curTransform);
+      // } else {
+      //   transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
+      //   matrix = transformMatrix.toString().split(',');
+      // }
+
+      // if (axis === 'x') {
+      //   // Latest Chrome and webkits Fix
+      //   if (window.WebKitCSSMatrix) curTransform = transformMatrix.m41;
+      //   // Crazy IE10 Matrix
+      //   else if (matrix.length === 16) curTransform = parseFloat(matrix[12]);
+      //   // Normal Browsers
+      //   else curTransform = parseFloat(matrix[4]);
+      // }
+      // if (axis === 'y') {
+      //   // Latest Chrome and webkits Fix
+      //   if (window.WebKitCSSMatrix) curTransform = transformMatrix.m42;
+      //   // Crazy IE10 Matrix
+      //   else if (matrix.length === 16) curTransform = parseFloat(matrix[13]);
+      //   // Normal Browsers
+      //   else curTransform = parseFloat(matrix[5]);
+      // }
+      // console.log('utils getTranslate', curTransform, axis, transformMatrix, matrix, curStyle.marginLeft);
+      // return curTransform || 0;
     },
     parseUrlQuery: function parseUrlQuery(url) {
       var query = {};
@@ -1311,8 +1319,8 @@
     swiper.virtualSize = -spaceBetween;
 
     // reset margins
-    if (rtl) { slides.css({ marginLeft: '', marginTop: '' }); }
-    else { slides.css({ marginRight: '', marginBottom: '' }); }
+    // if (rtl) slides.css({ marginLeft: '', marginTop: '' });
+    // else slides.css({ marginRight: '', marginBottom: '' });
 
     var slidesNumberEvenToRows;
     if (params.slidesPerColumn > 1) {
@@ -1409,13 +1417,13 @@
         slideSize = (swiperSize - ((params.slidesPerView - 1) * spaceBetween)) / params.slidesPerView;
         if (params.roundLengths) { slideSize = Math.floor(slideSize); }
 
-        if (slides[i]) {
-          if (swiper.isHorizontal()) {
-            slides[i].style.width = slideSize + "px";
-          } else {
-            slides[i].style.height = slideSize + "px";
-          }
-        }
+        // if (slides[i]) {
+        //   if (swiper.isHorizontal()) {
+        //     slides[i].style.width = `${slideSize}px`;
+        //   } else {
+        //     slides[i].style.height = `${slideSize}px`;
+        //   }
+        // }
       }
       if (slides[i]) {
         slides[i].swiperSlideSize = slideSize;
@@ -1489,12 +1497,12 @@
     }
     if (snapGrid.length === 0) { snapGrid = [0]; }
 
-    if (params.spaceBetween !== 0) {
-      if (swiper.isHorizontal()) {
-        if (rtl) { slides.css({ marginLeft: (spaceBetween + "px") }); }
-        else { slides.css({ marginRight: (spaceBetween + "px") }); }
-      } else { slides.css({ marginBottom: (spaceBetween + "px") }); }
-    }
+    // if (params.spaceBetween !== 0) {
+    //   if (swiper.isHorizontal()) {
+    //     if (rtl) slides.css({ marginLeft: `${spaceBetween}px` });
+    //     else slides.css({ marginRight: `${spaceBetween}px` });
+    //   } else slides.css({ marginBottom: `${spaceBetween}px` });
+    // }
 
     if (params.centerInsufficientSlides) {
       var allSlidesSize = 0;
@@ -1858,7 +1866,6 @@
     var progress = swiper.progress;
     var x = 0;
     var y = 0;
-    var z = 0;
 
     if (swiper.isHorizontal()) {
       x = rtl ? -translate : translate;
@@ -1872,8 +1879,13 @@
     }
 
     if (!params.virtualTranslate) {
-      if (Support.transforms3d) { $wrapperEl.transform(("translate3d(" + x + "px, " + y + "px, " + z + "px)")); }
-      else { $wrapperEl.transform(("translate(" + x + "px, " + y + "px)")); }
+      if (Support.transforms3d) {
+        // console.log('setTranslate', $wrapperEl, x, y, z);
+        $wrapperEl[0].style.marginLeft = x + "px";
+        // $wrapperEl.transform(`/*translate3d(${x}px, ${y}px, ${z}px)*/`);
+      } else {
+        $wrapperEl.transform(("translate(" + x + "px, " + y + "px)"));
+      }
     }
     swiper.previousTranslate = swiper.translate;
     swiper.translate = swiper.isHorizontal() ? x : y;
@@ -2685,7 +2697,9 @@
       ) {
         doc.activeElement.blur();
       }
-      if (preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault) {
+
+      var shouldPreventDefault = preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
+      if (params.touchStartForcePreventDefault || shouldPreventDefault) {
         e.preventDefault();
       }
     }
@@ -2892,6 +2906,7 @@
     // Update progress
     swiper.updateProgress(data.currentTranslate);
     // Update translate
+    // console.log('onTouchMove', data.currentTranslate, data);
     swiper.setTranslate(data.currentTranslate);
   }
 
@@ -3328,13 +3343,30 @@
     var params = swiper.params;
     var breakpoints = params.breakpoints;
     if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) { return; }
+
     // Set breakpoint for window width and update parameters
     var breakpoint = swiper.getBreakpoint(breakpoints);
-    if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
-      var breakPointsParams = breakpoint in breakpoints ? breakpoints[breakpoint] : swiper.originalParams;
-      var needsReLoop = params.loop && (breakPointsParams.slidesPerView !== params.slidesPerView);
 
-      Utils.extend(swiper.params, breakPointsParams);
+    if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
+      var breakpointOnlyParams = breakpoint in breakpoints ? breakpoints[breakpoint] : undefined;
+      if (breakpointOnlyParams) {
+        ['slidesPerView', 'spaceBetween', 'slidesPerGroup'].forEach(function (param) {
+          var paramValue = breakpointOnlyParams[param];
+          if (typeof paramValue === 'undefined') { return; }
+          if (param === 'slidesPerView' && (paramValue === 'AUTO' || paramValue === 'auto')) {
+            breakpointOnlyParams[param] = 'auto';
+          } else if (param === 'slidesPerView') {
+            breakpointOnlyParams[param] = parseFloat(paramValue);
+          } else {
+            breakpointOnlyParams[param] = parseInt(paramValue, 10);
+          }
+        });
+      }
+
+      var breakpointParams = breakpointOnlyParams || swiper.originalParams;
+      var needsReLoop = params.loop && (breakpointParams.slidesPerView !== params.slidesPerView);
+
+      Utils.extend(swiper.params, breakpointParams);
 
       Utils.extend(swiper, {
         allowTouchMove: swiper.params.allowTouchMove,
@@ -3350,7 +3382,7 @@
         swiper.updateSlides();
         swiper.slideTo((activeIndex - loopedSlides) + swiper.loopedSlides, 0, false);
       }
-      swiper.emit('breakpoint', breakPointsParams);
+      swiper.emit('breakpoint', breakpointParams);
     }
   }
 
@@ -3591,6 +3623,7 @@
     threshold: 0,
     touchMoveStopPropagation: true,
     touchStartPreventDefault: true,
+    touchStartForcePreventDefault: false,
     touchReleaseOnEdges: false,
 
     // Unique Navigation Elements
@@ -3935,6 +3968,7 @@
       function setTranslate() {
         var translateValue = swiper.rtlTranslate ? swiper.translate * -1 : swiper.translate;
         var newTranslate = Math.min(Math.max(translateValue, swiper.maxTranslate()), swiper.minTranslate());
+        console.log('core-class setTranslate', newTranslate);
         swiper.setTranslate(newTranslate);
         swiper.updateActiveIndex();
         swiper.updateSlidesClasses();
@@ -5322,6 +5356,8 @@
         newSize = trackSize - newPos;
       }
       if (swiper.isHorizontal()) {
+        // console.log('$dragEl.style', $dragEl, newPos);
+        // $dragEl.style.marginLeft = `${newPos}px`;
         if (Support.transforms3d) {
           $dragEl.transform(("translate3d(" + newPos + "px, 0, 0)"));
         } else {
@@ -6539,6 +6575,7 @@
       }
     },
     setTranslate: function setTranslate(setTranslate$1, byController) {
+      console.log('controller setTranslate', this);
       var swiper = this;
       var controlled = swiper.controller.control;
       var multiplier;
@@ -6660,6 +6697,7 @@
       setTranslate: function setTranslate(translate, byController) {
         var swiper = this;
         if (!swiper.controller.control) { return; }
+        console.log('controller setTranslate on', this, translate);
         swiper.controller.setTranslate(translate, byController);
       },
       setTransition: function setTransition(duration, byController) {

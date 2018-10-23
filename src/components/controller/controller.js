@@ -54,6 +54,7 @@ const Controller = {
     }
   },
   setTranslate(setTranslate, byController) {
+    console.log('controller setTranslate', this);
     const swiper = this;
     const controlled = swiper.controller.control;
     let multiplier;
@@ -175,6 +176,7 @@ export default {
     setTranslate(translate, byController) {
       const swiper = this;
       if (!swiper.controller.control) return;
+      console.log('controller setTranslate on', this, translate);
       swiper.controller.setTranslate(translate, byController);
     },
     setTransition(duration, byController) {

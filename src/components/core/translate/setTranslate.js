@@ -21,8 +21,13 @@ export default function (translate, byController) {
   }
 
   if (!params.virtualTranslate) {
-    if (Support.transforms3d) $wrapperEl.transform(`translate3d(${x}px, ${y}px, ${z}px)`);
-    else $wrapperEl.transform(`translate(${x}px, ${y}px)`);
+    if (Support.transforms3d) {
+      // console.log('setTranslate', $wrapperEl, x, y, z);
+      $wrapperEl[0].style.marginLeft = `${x}px`;
+      // $wrapperEl.transform(`/*translate3d(${x}px, ${y}px, ${z}px)*/`);
+    } else {
+      $wrapperEl.transform(`translate(${x}px, ${y}px)`);
+    }
   }
   swiper.previousTranslate = swiper.translate;
   swiper.translate = swiper.isHorizontal() ? x : y;
