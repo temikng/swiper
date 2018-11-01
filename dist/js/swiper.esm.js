@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: October 23, 2018
+ * Released on: November 1, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -1010,7 +1010,7 @@ function setTranslate (translate, byController) {
 
   if (!params.virtualTranslate) {
     if (Support.transforms3d) {
-      // console.log('setTranslate', $wrapperEl, x, y, z);
+      // console.log('setTranslate update', $wrapperEl, x, y, z);
       $wrapperEl[0].style.marginLeft = `${x}px`;
       // $wrapperEl.transform(`/*translate3d(${x}px, ${y}px, ${z}px)*/`);
     } else {
@@ -3006,7 +3006,7 @@ class Swiper extends SwiperClass {
     return spv;
   }
 
-  update() {
+  update(slideIndex) {
     const swiper = this;
     if (!swiper || swiper.destroyed) return;
     const { snapGrid, params } = swiper;
@@ -3022,9 +3022,8 @@ class Swiper extends SwiperClass {
     function setTranslate() {
       const translateValue = swiper.rtlTranslate ? swiper.translate * -1 : swiper.translate;
       const newTranslate = Math.min(Math.max(translateValue, swiper.maxTranslate()), swiper.minTranslate());
-      console.log('core-class setTranslate', newTranslate);
       swiper.setTranslate(newTranslate);
-      swiper.updateActiveIndex();
+      swiper.updateActiveIndex(slideIndex);
       swiper.updateSlidesClasses();
     }
     let translated;
@@ -3037,7 +3036,7 @@ class Swiper extends SwiperClass {
       if ((swiper.params.slidesPerView === 'auto' || swiper.params.slidesPerView > 1) && swiper.isEnd && !swiper.params.centeredSlides) {
         translated = swiper.slideTo(swiper.slides.length - 1, 0, false, true);
       } else {
-        translated = swiper.slideTo(swiper.activeIndex, 0, false, true);
+        translated = swiper.slideTo(slideIndex || swiper.activeIndex, 0, false, true);
       }
       if (!translated) {
         setTranslate();
@@ -3052,7 +3051,7 @@ class Swiper extends SwiperClass {
   init() {
     const swiper = this;
     if (swiper.initialized) return;
-
+    
     swiper.emit('beforeInit');
 
     // Set breakpoint
@@ -3083,9 +3082,9 @@ class Swiper extends SwiperClass {
       swiper.setGrabCursor();
     }
 
-    if (swiper.params.preloadImages) {
-      swiper.preloadImages();
-    }
+    // if (swiper.params.preloadImages) {
+    //   swiper.preloadImages();
+    // }
 
     // Slide To Initial Slide
     if (swiper.params.loop) {
